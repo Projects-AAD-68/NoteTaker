@@ -1,13 +1,17 @@
 package lk.ijse.gdse.aad68.notetaker.bo;
 
 import lk.ijse.gdse.aad68.notetaker.dto.NoteDTO;
+import lk.ijse.gdse.aad68.notetaker.util.AppUtil;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public final class NoteBOIMPL implements NoteBo {
     @Override
-    public String saveData(NoteDTO noteDTO) {
-        return "";
+    public String saveNote(NoteDTO noteDTO) {
+        noteDTO.setNoteId(AppUtil.createNoteId());
+        System.out.println(noteDTO);
+        return "Saved successfully in BO layer";
     }
 
     @Override
