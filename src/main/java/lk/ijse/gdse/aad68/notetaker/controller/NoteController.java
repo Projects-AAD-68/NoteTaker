@@ -1,8 +1,7 @@
 package lk.ijse.gdse.aad68.notetaker.controller;
 
-import lk.ijse.gdse.aad68.notetaker.bo.NoteBo;
+import lk.ijse.gdse.aad68.notetaker.service.NoteService;
 import lk.ijse.gdse.aad68.notetaker.dto.NoteDTO;
-import lk.ijse.gdse.aad68.notetaker.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,18 +15,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NoteController {
     @Autowired
-    private final NoteBo noteBo;
+    private final NoteService noteService;
    //Todo: CRUD of the note
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO note) {
-        //Todo: Handle with BO
-        var saveData = noteBo.saveNote(note);
+        //Todo: Handle with Service
+        var saveData = noteService.saveNote(note);
         return ResponseEntity.ok(saveData);
     }
     @GetMapping(value = "allnotes", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<NoteDTO> getAllNotes(){
-        System.out.println("Get all notes");
-        return null;
+        return noteService.getAllNotes();
     }
     @GetMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public NoteDTO getNote(@PathVariable ("noteId") String noteId)  {
