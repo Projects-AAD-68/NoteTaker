@@ -28,29 +28,25 @@ public class WebAppRootConfig {
     public DataSource dataSource() {
         var dmds = new DriverManagerDataSource();
         dmds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dmds.setUrl("jdbc:mysql://localhost:3306/noteTakerAAD68?createDatabaseIfNotExist=true");
+        dmds.setUrl("jdbc:mysql://localhost:3306/noteTakeaad68?createDatabaseIfNotExist=true");
         dmds.setUsername("root");
         dmds.setPassword("mysql");
         return dmds;
     }
-
-
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
-
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.acme.domain");
+        factory.setPackagesToScan("lk.ijse.gdse.aad68.notetaker.entity");
         factory.setDataSource(dataSource());
         return factory;
     }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
