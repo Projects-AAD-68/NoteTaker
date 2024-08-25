@@ -12,7 +12,4 @@ public class AppUtil {
     public static String createNoteId(){
         return "NOTE-"+UUID.randomUUID();
     }
-    //mapping
-    //Note details
-
 }
