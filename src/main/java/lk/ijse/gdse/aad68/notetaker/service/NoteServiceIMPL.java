@@ -40,8 +40,15 @@ public final class NoteServiceIMPL implements NoteService {
     }
 
     @Override
-    public boolean deleteNote(String noteId) {
-        return false;
+    public void deleteNote(String noteId) {
+        ListIterator<NoteDTO> tmpList = saveNoteTmp.listIterator();
+        while (tmpList.hasNext()) {
+            NoteDTO noteDTO = tmpList.next();
+            if (noteId.equals(noteDTO.getNoteId())) {
+                tmpList.remove();
+            }
+        }
+
     }
 
     @Override
