@@ -35,7 +35,12 @@ public final class NoteServiceIMPL implements NoteService {
 
     @Override
     public NoteDTO getSelectedNote(String noteId) {
-        return null;
+       for (NoteDTO noteDTO : saveNoteTmp) {
+           if (noteDTO.getNoteId().equals(noteId)) {
+               return noteDTO;
+           }
+       }
+       return null;
     }
 
     @Override
