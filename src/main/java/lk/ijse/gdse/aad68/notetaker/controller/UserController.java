@@ -5,6 +5,7 @@ import lk.ijse.gdse.aad68.notetaker.service.UserService;
 import lk.ijse.gdse.aad68.notetaker.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,15 +31,14 @@ public class UserController {
         // Handle profile pic
         String base64ProfilePic = AppUtil.toBase64ProfilePic(profilePic);
         // build the user object
-        var buildUserDTO = new UserDTO();
+        UserDTO buildUserDTO = new UserDTO();
         buildUserDTO.setFirstName(firstName);
         buildUserDTO.setLastName(lastName);
         buildUserDTO.setEmail(email);
         buildUserDTO.setPassword(password);
         buildUserDTO.setProfilePic(base64ProfilePic);
-
-
-
+        //send to the service layer
+        return new ResponseEntity<>(userService.saveUser(buildUserDTO), HttpStatus.CREATED);
     }
 
 }
