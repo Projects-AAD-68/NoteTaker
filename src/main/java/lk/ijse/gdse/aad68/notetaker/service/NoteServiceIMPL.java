@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -43,7 +44,7 @@ public  class NoteServiceIMPL implements NoteService {
 
     @Override
     public NoteDTO getSelectedNote(String noteId) {
-      return null;
+       return mapping.convertToDTO(noteDao.getReferenceById(noteId));
     }
 
     @Override
