@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("api/v1/notes")
 @RequiredArgsConstructor
 public class NoteController {
+    //Todo : Add health check endpoint
     @Autowired
     private final NoteService noteService;
    //Todo: CRUD of the note
