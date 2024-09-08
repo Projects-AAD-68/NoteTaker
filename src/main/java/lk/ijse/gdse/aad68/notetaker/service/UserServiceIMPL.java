@@ -3,6 +3,8 @@ package lk.ijse.gdse.aad68.notetaker.service;
 import jakarta.transaction.Transactional;
 import lk.ijse.gdse.aad68.notetaker.dao.UserDao;
 import lk.ijse.gdse.aad68.notetaker.dto.UserDTO;
+import lk.ijse.gdse.aad68.notetaker.entity.NoteEntity;
+import lk.ijse.gdse.aad68.notetaker.entity.UserEntity;
 import lk.ijse.gdse.aad68.notetaker.util.AppUtil;
 import lk.ijse.gdse.aad68.notetaker.util.Mapping;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -43,7 +46,8 @@ public class UserServiceIMPL implements UserService{
 
     @Override
     public UserDTO getSelectedUser(String userId) {
-        return null;
+        UserEntity userEntityByUserId = userDao.getUserEntityByUserId(userId);
+        return mapping.convertToUserDTO(userEntityByUserId);
     }
 
     @Override

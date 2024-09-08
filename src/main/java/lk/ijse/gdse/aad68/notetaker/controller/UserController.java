@@ -1,5 +1,6 @@
 package lk.ijse.gdse.aad68.notetaker.controller;
 
+import lk.ijse.gdse.aad68.notetaker.dto.NoteDTO;
 import lk.ijse.gdse.aad68.notetaker.dto.UserDTO;
 import lk.ijse.gdse.aad68.notetaker.service.UserService;
 import lk.ijse.gdse.aad68.notetaker.util.AppUtil;
@@ -40,6 +41,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable ("id") String userId){
        return userService.deleteUser(userId) ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO getSelectedUser(@PathVariable ("id") String userId){
+        return userService.getSelectedUser(userId);
     }
 
 }
