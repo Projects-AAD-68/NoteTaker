@@ -6,6 +6,7 @@ import lk.ijse.gdse.aad68.notetaker.customObj.UserResponse;
 import lk.ijse.gdse.aad68.notetaker.dao.UserDao;
 import lk.ijse.gdse.aad68.notetaker.dto.impl.UserDTO;
 import lk.ijse.gdse.aad68.notetaker.entity.UserEntity;
+import lk.ijse.gdse.aad68.notetaker.exception.DataPersistFailedException;
 import lk.ijse.gdse.aad68.notetaker.exception.UserNotFoundException;
 import lk.ijse.gdse.aad68.notetaker.util.AppUtil;
 import lk.ijse.gdse.aad68.notetaker.util.Mapping;
@@ -25,14 +26,12 @@ public class UserServiceIMPL implements UserService{
     @Autowired
     private final Mapping mapping;
     @Override
-    public String saveUser(UserDTO userDTO) {
+    public void saveUser(UserDTO userDTO) {
         userDTO.setUserId(AppUtil.createUserId());
         UserEntity savedUser =
                 userDao.save(mapping.convertToUserEntity(userDTO));
-        if(savedUser != null && savedUser.getUserId() != null ) {
-            return "User saved successfully";
-        }else {
-            return "Save failed";
+        if(savedUser == null && savedUser.getUserId() == null ) {
+            throw new DataPersistFailedException("Cannot data saved");
         }
     }
     @Override
