@@ -27,7 +27,6 @@ public class UserController {
          @RequestPart ("email") String email,
          @RequestPart ("password") String password,
          @RequestPart ("profilePic") String profilePic) {
-
         // Handle profile pic
         String base64ProfilePic = AppUtil.toBase64ProfilePic(profilePic);
         // build the user object
@@ -38,7 +37,12 @@ public class UserController {
         buildUserDTO.setPassword(password);
         buildUserDTO.setProfilePic(base64ProfilePic);
         //send to the service layer
-        return new ResponseEntity<>(userService.saveUser(buildUserDTO), HttpStatus.CREATED);
+        var saveStatus = userService.saveUser(buildUserDTO);
+        if (saveStatus.contains("User saved successfully")){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable ("id") String userId){
