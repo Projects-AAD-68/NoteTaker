@@ -23,7 +23,6 @@ public  class NoteServiceIMPL implements NoteService {
     private NoteDao noteDao;
     @Autowired
     private Mapping mapping;
-
     @Override
     public void saveNote(NoteDTO noteDTO) {
         noteDTO.setNoteId(AppUtil.createNoteId());
@@ -33,7 +32,6 @@ public  class NoteServiceIMPL implements NoteService {
             throw new DataPersistFailedException("Cannot save note");
         }
     }
-
     @Override
     public void updateNote(String noteId, NoteDTO incomeNoteDTO) {
         Optional<NoteEntity> tmpNoteEntity= noteDao.findById(noteId);
@@ -46,7 +44,6 @@ public  class NoteServiceIMPL implements NoteService {
             tmpNoteEntity.get().setPriorityLevel(incomeNoteDTO.getPriorityLevel());
         }
     }
-
     @Override
     public void deleteNote(String noteId) {
 //        noteDao.deleteById(noteId);
@@ -57,7 +54,6 @@ public  class NoteServiceIMPL implements NoteService {
             noteDao.deleteById(noteId);
         }
     }
-
     @Override
     public NoteResponse getSelectedNote(String noteId) {
         if(noteDao.existsById(noteId)){
@@ -72,6 +68,5 @@ public  class NoteServiceIMPL implements NoteService {
 //        List<NoteDTO> noteDTOS = mapping.convertToDTO(getAllNotes);
 //        return noteDTOS;
         return mapping.convertToDTO(noteDao.findAll());
-
     }
 }
