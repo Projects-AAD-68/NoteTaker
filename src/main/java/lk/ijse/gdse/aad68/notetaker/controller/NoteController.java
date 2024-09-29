@@ -1,5 +1,6 @@
 package lk.ijse.gdse.aad68.notetaker.controller;
 
+import lk.ijse.gdse.aad68.notetaker.exception.DataPersistFailedException;
 import lk.ijse.gdse.aad68.notetaker.exception.NoteNotFound;
 import lk.ijse.gdse.aad68.notetaker.service.NoteService;
 import lk.ijse.gdse.aad68.notetaker.dto.impl.NoteDTO;
@@ -18,14 +19,21 @@ import java.util.List;
 public class NoteController {
     @Autowired
     private final NoteService noteService;
-    @GetMapping("health")
-    public String healthCheck() {
-        return "Note taker is running";
-    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createNote(@RequestBody NoteDTO note) {
-        var saveData = noteService.saveNote(note);
-        return ResponseEntity.ok(saveData);
+    public ResponseEntity<Void> createNote(@RequestBody NoteDTO note) {
+        if (note == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else {
+            try {
+                noteService.saveNote(note);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }catch (DataPersistFailedException e){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }catch (Exception e){
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
     }
     @GetMapping(value = "allnotes", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<NoteDTO> getAllNotes(){

@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.gdse.aad68.notetaker.dao.NoteDao;
 import lk.ijse.gdse.aad68.notetaker.dto.impl.NoteDTO;
 import lk.ijse.gdse.aad68.notetaker.entity.NoteEntity;
+import lk.ijse.gdse.aad68.notetaker.exception.DataPersistFailedException;
 import lk.ijse.gdse.aad68.notetaker.exception.NoteNotFound;
 import lk.ijse.gdse.aad68.notetaker.util.AppUtil;
 import lk.ijse.gdse.aad68.notetaker.util.Mapping;
@@ -22,11 +23,13 @@ public  class NoteServiceIMPL implements NoteService {
     private Mapping mapping;
 
     @Override
-    public String saveNote(NoteDTO noteDTO) {
+    public void saveNote(NoteDTO noteDTO) {
         noteDTO.setNoteId(AppUtil.createNoteId());
         var noteEntity = mapping.convertToEntity(noteDTO);
-        noteDao.save(noteEntity);
-        return "Saved successfully in Service layer";
+        var savedNoted = noteDao.save(noteEntity);
+        if(savedNoted == null){
+            throw new DataPersistFailedException("Cannot save note");
+        }
     }
 
     @Override
